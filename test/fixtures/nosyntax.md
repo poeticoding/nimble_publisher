@@ -1,10 +1,10 @@
 %{
-  syntax: "nohighlight"
+  syntax: false
 }
 ---
 Here is no code highlight:
 
-```
+```elixir
 IO.puts "syntax"
 ```
 

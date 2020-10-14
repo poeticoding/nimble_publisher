@@ -41,7 +41,8 @@ defmodule NimblePublisher do
     entries =
       for path <- paths do
         {attrs, body} = parse_contents!(path, File.read!(path))
-        body = body |> Earmark.as_html!(earmark_opts) |> NimblePublisher.Highlighter.highlight()
+        syntax = Map.get(attrs, :syntax, false)
+        body = body |> Earmark.as_html!(earmark_opts) |> highlight(syntax)
         builder.build(path, attrs, body)
       end
 
@@ -86,4 +87,10 @@ defmodule NimblePublisher do
         end
     end
   end
+
+  defp highlight(body, syntax) when syntax in [false, nil], do: body
+  defp highlight(body, _) do
+    NimblePublisher.Highlighter.highlight(body)
+  end
+
 end

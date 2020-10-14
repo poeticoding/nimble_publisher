@@ -58,8 +58,8 @@ defmodule NimblePublisherTest do
         from: "test/fixtures/nosyntax.md",
         as: :examples
 
-      assert hd(@examples).attrs == %{syntax: "nohighlight"}
-      assert hd(@examples).body =~ "<pre><code>IO.puts &quot;syntax&quot;</code></pre>"
+      assert hd(@examples).attrs == %{syntax: false}
+      assert hd(@examples).body =~ "<pre><code class=\"elixir\">IO.puts &quot;syntax&quot;</code></pre>"
     end
   end
 
@@ -71,7 +71,7 @@ defmodule NimblePublisherTest do
         as: :examples,
         earmark_options: %Earmark.Options{smartypants: false}
 
-      assert hd(@examples).body =~ "<pre><code>IO.puts &quot;syntax&quot;</code></pre>"
+      assert hd(@examples).body =~ "<pre><code class=\"elixir\">IO.puts &quot;syntax&quot;</code></pre>"
 
       assert hd(@examples).body =~
                "And inline code: <code class=\"inline\">IO.puts &quot;syntax&quot;</code>"
@@ -88,7 +88,7 @@ defmodule NimblePublisherTest do
         as: :examples,
         earmark_options: %Earmark.Options{smartypants: true}
 
-      assert hd(@examples).body =~ "<pre><code>IO.puts &quot;syntax&quot;</code></pre>"
+      assert hd(@examples).body =~ "<pre><code class=\"elixir\">IO.puts &quot;syntax&quot;</code></pre>"
 
       assert hd(@examples).body =~
                "And inline code: <code class=\"inline\">IO.puts “syntax”</code>"
@@ -109,6 +109,19 @@ defmodule NimblePublisherTest do
       assert hd(@highlights).body =~ "<pre><code class=\"makeup elixir\">"
     end
   end
+
+  # test "disabled syntax highlighter" do
+  #   defmodule Example do
+  #     use NimblePublisher,
+  #       build: Builder,
+  #       from: "test/fixtures/disabledsyntax.md",
+  #       as: :posts
+
+  #     assert hd(@posts).attrs == %{syntax: false}
+  #     assert hd(@posts).body =~ "<pre><code class=\"elixir\">IO.puts \"syntax\"</code></pre>"
+  #   end
+
+  # end
 
   test "does not require recompilation unless paths changed" do
     defmodule Example do
