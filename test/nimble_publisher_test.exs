@@ -110,18 +110,18 @@ defmodule NimblePublisherTest do
     end
   end
 
-  # test "disabled syntax highlighter" do
-  #   defmodule Example do
-  #     use NimblePublisher,
-  #       build: Builder,
-  #       from: "test/fixtures/disabledsyntax.md",
-  #       as: :posts
+  test "syntax: false, completely disables highlighter" do
+    defmodule Example do
+      use NimblePublisher,
+        build: Builder,
+        from: "test/fixtures/nosyntax.md",
+        as: :posts
 
-  #     assert hd(@posts).attrs == %{syntax: false}
-  #     assert hd(@posts).body =~ "<pre><code class=\"elixir\">IO.puts \"syntax\"</code></pre>"
-  #   end
+      assert hd(@posts).attrs == %{syntax: false}
+      assert hd(@posts).body =~ "<pre><code class=\"elixir\">IO.puts &quot;syntax&quot;</code></pre>"
+    end
 
-  # end
+  end
 
   test "does not require recompilation unless paths changed" do
     defmodule Example do
